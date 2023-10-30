@@ -26,7 +26,7 @@ class Chart extends StatelessWidget {
           'amount': totalSum,
         };
       },
-    );
+    ).reversed.toList();
   }
 
   double get totalSpending {
@@ -40,16 +40,23 @@ class Chart extends StatelessWidget {
     return Card(
       elevation: 6,
       margin: const EdgeInsets.all(20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: groupedTransactionValues.map((transaction) {
-          return Bar(
-            label: transaction['Day'],
-            spendingAmount: transaction['amount'],
-            percentageOfTotal:
-                totalSpending == 0 ? 0 : transaction['amount'] / totalSpending,
-          );
-        }).toList(),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: groupedTransactionValues.map((transaction) {
+            return Flexible(
+              fit: FlexFit.tight,
+              child: Bar(
+                label: transaction['Day'],
+                spendingAmount: transaction['amount'],
+                percentageOfTotal: totalSpending == 0
+                    ? 0
+                    : transaction['amount'] / totalSpending,
+              ),
+            );
+          }).toList(),
+        ),
       ),
     );
   }
